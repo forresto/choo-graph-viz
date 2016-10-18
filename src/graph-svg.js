@@ -3,14 +3,25 @@ const html = require('choo/html')
 function renderNodes (nodes) {
   return nodes.map(function (node) {
     const {id, width, height, x, y, labels} = node
+    let label
+    if (labels && labels[0] && labels[0].text) {
+      console.log(labels[0])
+      label = html`
+        <text
+          x="${x + labels[0].x}" y="${y + labels[0].y}"
+          style="text-anchor: middle;">
+          ${labels[0].text}
+        </text>
+      `
+    }
     return html`
       <g id="${id}">
-        <rect x="${x}" y="${y}" width="${width}" height="${height}"
+        <rect
+          x="${x}" y="${y}"
+          width="${width}" height="${height}"
           fill="white" stroke="black"
         />
-        <text x="${x + 10}" y="${y + 30}">
-          ${(labels ? labels[0].text : '')}
-        </text>
+        ${label}
       </g>
     `
   })
@@ -29,8 +40,10 @@ function renderEdges (edges) {
     }
     d += `L ${targetPoint.x} ${targetPoint.y} `
     return html`
-      <path id="${id}" d="${d}"
-        stroke="black" fill="none" style="marker-end: url(#markerArrow);"
+      <path id="${id}"
+        d="${d}"
+        fill="none" stroke="black"
+        style="marker-end: url(#markerArrow);"
       />
     `
   })

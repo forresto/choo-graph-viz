@@ -1,17 +1,27 @@
 const klay = require('klayjs')
-const properties =
+
+const graphProps =
   { direction: 'RIGHT'
   , spacing: 40
   , feedBackEdges: true
   , edgeRouting: 'ORTHOGONAL'
   }
-const options = { intCoordinates: true }
+const nodeProps =
+  { nodeLabelPlacement: 'INSIDE H_CENTER V_CENTER'
+  , sizeConstraint: 'NODE_LABELS MINIMUM_SIZE'
+  , sizeOptions: 'DEFAULT_MINIMUM_SIZE'
+  , minWidth: 36
+  , minHeight: 36
+  }
+const options =
+  { intCoordinates: true
+  }
 
 
 function graphToKGraph (graph) {
   let kGraph =
     { id: 'root'
-    , properties
+    , properties: graphProps
     , children: []
     , edges: []
     }
@@ -20,8 +30,7 @@ function graphToKGraph (graph) {
     let kNode =
       { id: node.id
       , labels: [ { text: node.label || node.id } ]
-      , width: 50
-      , height: 50
+      , properties: nodeProps
       }
     kGraph.children.push(kNode)
   }
@@ -43,6 +52,7 @@ function layoutEffect (data, state, send, done) {
     done(err)
   }
   function success (graph) {
+    console.log(graph)
     send('layout', graph, done)
   }
   // Can be workerized if too sluggish on main thread
