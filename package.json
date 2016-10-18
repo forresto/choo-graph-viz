@@ -2,10 +2,10 @@
   "name": "playground-choo-viz",
   "version": "1.0.0",
   "description": "{{description}} ## See also",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "bankai start --entry=index.js --port=8080"
+    "start": "bankai start --entry=demo --port=8080"
   },
   "keywords": [],
   "author": "Yoshua Wuyts <yoshuawuyts@gmail.com>",
@@ -13,6 +13,7 @@
   "dependencies": {
     "bankai": "^3.3.1",
     "choo": "^4.0.0-1",
-    "choo-log": "^2.0.0"
+    "choo-log": "^2.0.0",
+    "klayjs": "^0.4.1"
   }
 }

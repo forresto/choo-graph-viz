@@ -1,0 +1,54 @@
+const html = require('choo/html')
+
+function renderNodes (nodes) {
+  return nodes.map(function (node) {
+    const {width, height, x, y} = node
+    return html`
+      <rect x="${x}" y="${y}" width="${width}" height="${height}"
+        fill="white" stroke="black"
+      />
+    `
+  })
+}
+
+function renderEdges (edges) {
+  return edges.map(function (edge) {
+    console.log(edge)
+    const {sourcePoint, targetPoint, bendPoints} = edge
+    let d = ''
+    d += `M ${sourcePoint.x} ${sourcePoint.y} `
+    if (bendPoints) {
+      for (let i = 0, len = bendPoints.length; i < len; i++) {
+        const bendPoint = bendPoints[i]
+        d += `L ${bendPoint.x} ${bendPoint.y} `
+      }
+    }
+    d += `L ${targetPoint.x} ${targetPoint.y} `
+    return html`
+      <path d="${d}"
+        stroke="black" fill="none" style="marker-end: url(#markerArrow);"
+      />
+    `
+  })
+}
+
+function graphSVG (layout) {
+  if (!layout) {
+    return html`<div>calculating layout...</div>`
+  }
+  const {height, width, children, edges} = layout
+  return html`
+    <svg width="${Math.ceil(width)}" height="${Math.ceil(height)}">
+      <defs>
+        <marker id="markerArrow" markerWidth="13" markerHeight="13" refX="2" refY="6" orient="auto">
+          <path d="M2,2 L2,11 L10,6 L2,2" fill="black" />
+        </marker>
+      </defs>
+      ${renderNodes(children)}
+      ${renderEdges(edges)}
+      <rect width="1" height="2" x="0" fill="green" />
+    </svg>
+  `
+}
+
+module.exports = graphSVG
