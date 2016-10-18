@@ -42,7 +42,7 @@ function graphSVG (layout) {
   }
   const {height, width, children, edges} = layout
   return html`
-    <svg width="${Math.ceil(width)}" height="${Math.ceil(height)}">
+    <svg width="${width}" height="${height}">
       <defs>
         <marker id="markerArrow" markerWidth="13" markerHeight="13" refX="10" refY="6" orient="auto">
           <path d="M2,2 L2,11 L10,6 L2,2" fill="black" />

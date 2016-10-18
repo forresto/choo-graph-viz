@@ -1,15 +1,17 @@
 const klay = require('klayjs')
+const properties =
+  { direction: 'RIGHT'
+  , spacing: 40
+  , feedBackEdges: true
+  , edgeRouting: 'ORTHOGONAL'
+  }
+const options = { intCoordinates: true }
+
 
 function graphToKGraph (graph) {
   let kGraph =
     { id: 'root'
-    , properties:
-      { direction: 'RIGHT'
-      , spacing: 40
-      , feedBackEdges: true
-      // , portConstraints: 'FREE'
-      , edgeRouting: 'ORTHOGONAL'
-      }
+    , properties
     , children: []
     , edges: []
     }
@@ -37,7 +39,6 @@ function graphToKGraph (graph) {
 
 function layoutEffect (data, state, send, done) {
   const kGraph = graphToKGraph(data.graph)
-  const options = {}
   function error (err) {
     done(err)
   }
