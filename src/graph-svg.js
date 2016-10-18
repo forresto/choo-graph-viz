@@ -2,19 +2,24 @@ const html = require('choo/html')
 
 function renderNodes (nodes) {
   return nodes.map(function (node) {
-    const {width, height, x, y} = node
+    console.log(node)
+    const {id, width, height, x, y, labels} = node
     return html`
-      <rect x="${x}" y="${y}" width="${width}" height="${height}"
-        fill="white" stroke="black"
-      />
+      <g id="${id}">
+        <rect x="${x}" y="${y}" width="${width}" height="${height}"
+          fill="white" stroke="black"
+        />
+        <text x="${x + 10}" y="${y + 30}">
+          ${(labels ? labels[0].text : '')}
+        </text>
+      </g>
     `
   })
 }
 
 function renderEdges (edges) {
   return edges.map(function (edge) {
-    console.log(edge)
-    const {sourcePoint, targetPoint, bendPoints} = edge
+    const {id, sourcePoint, targetPoint, bendPoints} = edge
     let d = ''
     d += `M ${sourcePoint.x} ${sourcePoint.y} `
     if (bendPoints) {
@@ -25,7 +30,7 @@ function renderEdges (edges) {
     }
     d += `L ${targetPoint.x} ${targetPoint.y} `
     return html`
-      <path d="${d}"
+      <path id="${id}" d="${d}"
         stroke="black" fill="none" style="marker-end: url(#markerArrow);"
       />
     `
@@ -40,7 +45,7 @@ function graphSVG (layout) {
   return html`
     <svg width="${Math.ceil(width)}" height="${Math.ceil(height)}">
       <defs>
-        <marker id="markerArrow" markerWidth="13" markerHeight="13" refX="2" refY="6" orient="auto">
+        <marker id="markerArrow" markerWidth="13" markerHeight="13" refX="10" refY="6" orient="auto">
           <path d="M2,2 L2,11 L10,6 L2,2" fill="black" />
         </marker>
       </defs>
