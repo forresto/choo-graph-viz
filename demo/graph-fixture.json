@@ -6,6 +6,7 @@
 , edges:
   [ {source: 'a', target: 'b'}
   , {source: 'b', target: 'c'}
+  , {source: 'a', target: 'c'}
   , {source: 'c', target: 'a'}
   ]
 }
