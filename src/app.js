@@ -23,7 +23,6 @@ const model =
   }
 
 function initLayout (send, done) {
-  console.log(arguments)
   send('layouter', {}, (err) => {if (err) return done(err)})
 }
 

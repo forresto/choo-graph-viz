@@ -2,7 +2,6 @@ const html = require('choo/html')
 
 function renderNodes (nodes) {
   return nodes.map(function (node) {
-    console.log(node)
     const {id, width, height, x, y, labels} = node
     return html`
       <g id="${id}">
@@ -51,7 +50,6 @@ function graphSVG (layout) {
       </defs>
       ${renderNodes(children)}
       ${renderEdges(edges)}
-      <rect width="1" height="2" x="0" fill="green" />
     </svg>
   `
 }

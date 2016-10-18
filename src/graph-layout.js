@@ -36,21 +36,17 @@ function graphToKGraph (graph) {
 }
 
 function layoutEffect (data, state, send, done) {
-  console.log(data, state, send, done)
   const kGraph = graphToKGraph(data.graph)
   const options = {}
   function error (err) {
-    console.log(err)
     done(err)
   }
   function success (graph) {
-    console.log('klay', graph)
     send('layout', graph, done)
   }
   // Can be workerized if too sluggish on main thread
   // https://github.com/OpenKieler/klayjs#web-worker
   klay.layout({graph: kGraph, options, error, success})
-  console.log(klay, klay.layout)
 }
 
 module.exports = layoutEffect
