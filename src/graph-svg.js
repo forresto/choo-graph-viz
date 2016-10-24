@@ -1,11 +1,20 @@
 const html = require('choo/html')
 
+const arrowWidth = 8
+const arrowHeight = 8
+const arrow = html`
+<marker id="markerArrow" refX="0" refY="0" orient="auto" overflow="visible">
+  <path
+    d="M ${0 - arrowWidth} ${0 - arrowHeight / 2} L 0 0 L ${0 - arrowWidth} ${arrowHeight / 2}"
+    stroke="none" fill="black" />
+</marker>
+`
+
 function renderNodes (nodes) {
   return nodes.map(function (node) {
     const {id, width, height, x, y, labels} = node
     let label
     if (labels && labels[0] && labels[0].text) {
-      console.log(labels[0])
       label = html`
         <text
           x="${x + labels[0].x}" y="${y + labels[0].y}"
@@ -57,9 +66,7 @@ function graphSVG (layout) {
   return html`
     <svg width="${width}" height="${height}">
       <defs>
-        <marker id="markerArrow" markerWidth="13" markerHeight="13" refX="10" refY="6" orient="auto">
-          <path d="M2,2 L2,11 L10,6 L2,2" fill="black" />
-        </marker>
+        ${arrow}
       </defs>
       ${renderNodes(children)}
       ${renderEdges(edges)}
