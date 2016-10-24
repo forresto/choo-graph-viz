@@ -1,12 +1,25 @@
 { nodes:
-  [ {id: 'a'}
-  , {id: 'b'}
-  , {id: 'c'}
+  [ {id: 'User'}
+  , {id: 'DOM'}
+  , {id: 'Subscriptions'}
+  , {id: 'Effects'}
+  , {id: 'Actions'}
+  , {id: 'Reducers'}
+  , {id: 'Router'}
+  , {id: 'State'}
+  , {id: 'Views'}
   ]
 , edges:
-  [ {source: 'a', target: 'b'}
-  , {source: 'b', target: 'c'}
-  , {source: 'a', target: 'c'}
-  , {source: 'c', target: 'a'}
+  [ {source: 'User', target: 'DOM'}
+  , {source: 'Subscriptions', target: 'Effects'}
+  , {source: 'Subscriptions', target: 'Reducers'}
+  , {source: 'Effects', target: 'Reducers'}
+  , {source: 'DOM', target: 'Actions'}
+  , {source: 'Actions', target: 'Reducers'}
+  , {source: 'Actions', target: 'Effects'}
+  , {source: 'Reducers', target: 'Router'}
+  , {source: 'Router', target: 'State'}
+  , {source: 'State', target: 'Views'}
+  , {source: 'Views', target: 'DOM'}
   ]
 }
