@@ -1,4 +1,5 @@
 const klay = require('klayjs')
+const xtend = require('xtend')
 
 const graphProps =
   { direction: 'RIGHT'
@@ -27,10 +28,12 @@ function graphToKGraph (graph) {
     }
   for (let i = 0, len = graph.nodes.length; i < len; i++) {
     const node = graph.nodes[i]
+    const label = node.label || node.id || "node"
+    const minWidth = label.length * 10 + 12
     let kNode =
       { id: node.id
-      , labels: [ { text: node.label || node.id } ]
-      , properties: nodeProps
+      , labels: [ { text: label } ]
+      , properties: xtend(nodeProps, {minWidth})
       }
     kGraph.children.push(kNode)
   }

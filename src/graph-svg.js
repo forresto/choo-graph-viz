@@ -18,7 +18,7 @@ function renderNodes (nodes) {
       label = html`
         <text
           x="${x + labels[0].x}" y="${y + labels[0].y}"
-          style="text-anchor: middle;">
+          style="text-anchor: middle; font-family: monospace">
           ${labels[0].text}
         </text>
       `
