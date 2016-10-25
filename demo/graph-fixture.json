@@ -1,23 +1,52 @@
-{ nodes:
-  [ {id: 'User'}
-  , {id: 'DOM'}
-  , {id: 'Subscriptions'}
-  , {id: 'Effects'}
-  , {id: 'Actions'}
-  , {id: 'Reducers'}
-  , {id: 'Router'}
-  , {id: 'State'}
-  , {id: 'Views'}
+{ children:
+  [ { id: 'User' }
+  , { id: 'DOM' }
+  , { id: 'Subscriptions'
+    , children:
+      [ { id: 'Init' }
+      , { id: 'Update' }
+      ]
+    , edges:
+      [ {source: 'Init', target: 'UpdateGraph'}
+      , {source: 'Update', target: 'UpdateGraph'}
+      ]
+    }
+  , { id: 'Effects'
+    , children:
+      [ { id: 'AsyncLayout' }
+      ]
+    , edges:
+      [ {source: 'AsyncLayout', target: 'SetLayout'}
+      ]
+    }
+  , { id: 'Actions'
+    , children:
+      [ { id: 'MoveNode' }
+      , { id: 'UpdateGraph' }
+      ]
+    , edges:
+      [ {source: 'MoveNode', target: 'AsyncLayout'}
+      , {source: 'UpdateGraph', target: 'SetGraph'}
+      , {source: 'UpdateGraph', target: 'AsyncLayout'}
+      ]
+    }
+  , { id: 'Reducers'
+    , children:
+      [ { id: 'SetLayout' }
+      , { id: 'SetGraph' }
+      ]
+    , edges:
+      [ {source: 'SetLayout', target: 'State'}
+      , {source: 'SetGraph', target: 'State'}
+      ]
+    }
+  , { id: 'Router' }
+  , { id: 'State' }
+  , { id: 'Views' }
   ]
 , edges:
   [ {source: 'User', target: 'DOM'}
-  , {source: 'Subscriptions', target: 'Effects'}
-  , {source: 'Subscriptions', target: 'Reducers'}
-  , {source: 'Effects', target: 'Reducers'}
-  , {source: 'DOM', target: 'Actions'}
-  , {source: 'Actions', target: 'Reducers'}
-  , {source: 'Actions', target: 'Effects'}
-  , {source: 'Reducers', target: 'Router'}
+  , {source: 'DOM', target: 'MoveNode'}
   , {source: 'Router', target: 'State'}
   , {source: 'State', target: 'Views'}
   , {source: 'Views', target: 'DOM'}

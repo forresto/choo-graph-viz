@@ -10,42 +10,50 @@ const graphProps =
 const nodeProps =
   { nodeLabelPlacement: 'INSIDE H_CENTER V_CENTER'
   , sizeConstraint: 'NODE_LABELS MINIMUM_SIZE'
-  , sizeOptions: 'DEFAULT_MINIMUM_SIZE'
+  , sizeOptions: 'DEFAULT_MINIMUM_SIZE COMPUTE_INSETS'
+  , labelSpacing: 12
   , minWidth: 36
   , minHeight: 36
   }
 const options =
-  { intCoordinates: true
+  { intCoordinates: false
   }
 
+
+function makeKNode (node) {
+  const label = node.label || node.id || "node"
+  const minWidth = label.length * 10 + 12
+  let kNode =
+    { id: node.id
+    , labels: [ { text: label } ]
+    , properties: xtend(nodeProps, {minWidth})
+    }
+  if (node.children) {
+    kNode.children = node.children.map(makeKNode)
+    kNode.properties.nodeLabelPlacement = 'OUTSIDE H_CENTER V_TOP'
+  }
+  if (node.edges) {
+    kNode.edges = node.edges.map(makeKEdge)
+  }
+  return kNode
+}
+
+function makeKEdge (edge) {
+  let kEdge =
+    { id: `${edge.source}___${edge.target}`
+    , source: edge.source
+    , target: edge.target
+    }
+  return kEdge
+}
 
 function graphToKGraph (graph) {
   let kGraph =
     { id: 'root'
     , properties: graphProps
-    , children: []
-    , edges: []
+    , children: graph.children.map(makeKNode)
+    , edges: graph.edges.map(makeKEdge)
     }
-  for (let i = 0, len = graph.nodes.length; i < len; i++) {
-    const node = graph.nodes[i]
-    const label = node.label || node.id || "node"
-    const minWidth = label.length * 10 + 12
-    let kNode =
-      { id: node.id
-      , labels: [ { text: label } ]
-      , properties: xtend(nodeProps, {minWidth})
-      }
-    kGraph.children.push(kNode)
-  }
-  for (let i = 0, len = graph.edges.length; i < len; i++) {
-    const edge = graph.edges[i]
-    let kEdge =
-      { id: 'edge' + i
-      , source: edge.source
-      , target: edge.target
-      }
-    kGraph.edges.push(kEdge)
-  }
   return kGraph
 }
 
