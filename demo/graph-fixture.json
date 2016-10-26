@@ -25,7 +25,7 @@
       , { id: 'UpdateGraph' }
       ]
     , edges:
-      [ {source: 'MoveNode', target: 'AsyncLayout'}
+      [ {source: 'MoveNode', target: 'UpdateGraph'}
       , {source: 'UpdateGraph', target: 'SetGraph'}
       , {source: 'UpdateGraph', target: 'AsyncLayout'}
       ]
@@ -35,10 +35,6 @@
       [ { id: 'SetLayout' }
       , { id: 'SetGraph' }
       ]
-    , edges:
-      [ {source: 'SetLayout', target: 'State'}
-      , {source: 'SetGraph', target: 'State'}
-      ]
     }
   , { id: 'Router' }
   , { id: 'State' }
@@ -47,8 +43,9 @@
 , edges:
   [ {source: 'User', target: 'DOM'}
   , {source: 'DOM', target: 'MoveNode'}
-  , {source: 'Router', target: 'State'}
-  , {source: 'State', target: 'Views'}
+  , {source: 'Reducers', target: 'State'}
+  , {source: 'State', target: 'Router'}
+  , {source: 'Router', target: 'Views'}
   , {source: 'Views', target: 'DOM'}
   ]
 }
