@@ -69,9 +69,15 @@ function graphSVG (layout) {
   if (!layout) {
     return html`<div>calculating layout...</div>`
   }
-  const {height, width, children, edges} = layout
+  const {children, edges} = layout
+  let {height, width} = layout
+  height = Math.ceil(height)
+  width = Math.ceil(width)
   return html`
-    <svg width="${width}" height="${height}">
+    <svg
+      width="${width}" height="${height}"
+      viewBox="0 0 ${width} ${height}"
+      style="max-width: 100%">
       <defs>
         ${arrow}
       </defs>
