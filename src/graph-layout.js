@@ -65,8 +65,8 @@ function layoutEffect (state, data, send, done) {
     done(err)
   }
   function success (layout) {
-    send('re_layout', layout, done)
-    send('fx_voronoi', layout, done)
+    send('app:re_layout', layout, done)
+    send('app:fx_voronoi', layout, done)
   }
   // Can be workerized if too sluggish on main thread
   // https://github.com/OpenKieler/klayjs#web-worker

@@ -67,9 +67,8 @@ function renderEdge (edge) {
   `
 }
 
-function graphSVG (state) {
-  const {layout, voronoi, showVoronoi} = state
-  console.log(showVoronoi)
+function graphSVG (state, prev, send) {
+  const {layout, voronoi, showVoronoi} = state.app
   if (!layout) {
     return html`<div>calculating layout...</div>`
   }

@@ -55,7 +55,7 @@ function fxVoronoi (state, data, send, done) {
   const diagram = voronoi(points)
   const polygons = diagram.polygons()
 
-  send('re_voronoi', {diagram, polygons}, done)
+  send('app:re_voronoi', {diagram, polygons}, done)
 }
 
 module.exports = fxVoronoi
