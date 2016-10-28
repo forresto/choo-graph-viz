@@ -6,6 +6,7 @@ const graphProps =
   , spacing: 40
   , feedBackEdges: true
   , edgeRouting: 'ORTHOGONAL'
+  , unnecessaryBendpoints: false
   }
 const nodeProps =
   { nodeLabelPlacement: 'INSIDE H_CENTER V_CENTER'
@@ -57,9 +58,15 @@ function graphToKGraph (graph) {
   return kGraph
 }
 
+function layoutEffect (state, data, send, done) {
+  const {graph} = state
+  const kGraph = graphToKGraph(graph)
   function error (err) {
     done(err)
   }
+  function success (layout) {
+    send('re_layout', layout, done)
+    send('fx_voronoi', layout, done)
   }
   // Can be workerized if too sluggish on main thread
   // https://github.com/OpenKieler/klayjs#web-worker
