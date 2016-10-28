@@ -57,14 +57,9 @@ function graphToKGraph (graph) {
   return kGraph
 }
 
-function layoutEffect (data, state, send, done) {
-  const kGraph = graphToKGraph(data.graph)
   function error (err) {
     done(err)
   }
-  function success (graph) {
-    console.log(graph)
-    send('re_layout', graph, done)
   }
   // Can be workerized if too sluggish on main thread
   // https://github.com/OpenKieler/klayjs#web-worker

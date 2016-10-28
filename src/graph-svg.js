@@ -1,4 +1,5 @@
 const html = require('choo/html')
+const viewVoronoi = require('./view-voronoi')
 
 const arrowWidth = 8
 const arrowHeight = 8
@@ -25,18 +26,19 @@ function renderNode (node) {
   }
   let childNodes
   if (children) {
-    console.log(children)
     childNodes = children.map(renderNode)
   }
   let childEdges
   if (edges) {
     childEdges = edges.map(renderEdge)
   }
+  const fill = children ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.9)'
+  const stroke = children ? 'rgba(0, 0, 0, 0.5)' : 'black'
   return html`
     <g id="${id}" transform="translate(${x} ${y})">
       <rect
         width="${width}" height="${height}"
-        fill="transparent" stroke="black"
+        fill="${fill}" stroke="${stroke}"
       />
       ${childNodes}
       ${childEdges}
@@ -65,7 +67,8 @@ function renderEdge (edge) {
   `
 }
 
-function graphSVG (layout) {
+function graphSVG (state) {
+  const {layout, voronoi} = state
   if (!layout) {
     return html`<div>calculating layout...</div>`
   }
@@ -83,6 +86,7 @@ function graphSVG (layout) {
       </defs>
       ${children.map(renderNode)}
       ${edges.map(renderEdge)}
+      ${voronoi ? viewVoronoi(voronoi) : null}
     </svg>
   `
 }

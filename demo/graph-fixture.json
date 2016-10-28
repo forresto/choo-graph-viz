@@ -13,27 +13,32 @@
     }
   , { id: 'Effects'
     , children:
-      [ { id: 'AsyncLayout' }
+      [ { id: 'Layout' }
+      , { id: 'Voronoi' }
       ]
     , edges:
-      [ {source: 'AsyncLayout', target: 'SetLayout'}
+      [ {source: 'Layout', target: 'SetLayout'}
+      , {source: 'Layout', target: 'Voronoi'}
+      , {source: 'Voronoi', target: 'SetVoronoi'}
       ]
     }
   , { id: 'Actions'
     , children:
-      [ { id: 'MoveNode' }
-      , { id: 'UpdateGraph' }
+      [ { id: 'UpdateGraph' }
+      , { id: 'Pointer' }
       ]
     , edges:
-      [ {source: 'MoveNode', target: 'UpdateGraph'}
-      , {source: 'UpdateGraph', target: 'SetGraph'}
-      , {source: 'UpdateGraph', target: 'AsyncLayout'}
+      [ {source: 'UpdateGraph', target: 'SetGraph'}
+      , {source: 'UpdateGraph', target: 'Layout'}
+      , {source: 'Pointer', target: 'SetNN'}
       ]
     }
   , { id: 'Reducers'
     , children:
       [ { id: 'SetLayout' }
       , { id: 'SetGraph' }
+      , { id: 'SetVoronoi' }
+      , { id: 'SetNN' }
       ]
     }
   , { id: 'Router' }
@@ -42,7 +47,7 @@
   ]
 , edges:
   [ {source: 'User', target: 'DOM'}
-  , {source: 'DOM', target: 'MoveNode'}
+  , {source: 'DOM', target: 'Pointer'}
   , {source: 'Reducers', target: 'State'}
   , {source: 'State', target: 'Router'}
   , {source: 'Router', target: 'Views'}
