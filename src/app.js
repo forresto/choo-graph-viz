@@ -12,6 +12,7 @@ const model =
     { graph: null
     , layout: null
     , voronoi: null
+    , showVoronoi: true
     }
   , reducers:
     { re_layout: (state, data) => ({ layout: data })
