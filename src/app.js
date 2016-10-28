@@ -15,12 +15,14 @@ const model =
     , layout: null
     , voronoi: null
     , showVoronoi: false
-    , selected: null
+    , pos: null
+    , nearest: null
     }
   , reducers:
     { re_toggleVoronoi: (state, data) => ({ showVoronoi: data })
     , re_layout: (state, data) => ({ layout: data })
     , re_voronoi: (state, data) => ({ voronoi: data })
+    , re_pointer: setNN
     }
   , effects:
     { fx_layout: graphLayout
@@ -30,6 +32,12 @@ const model =
     [ initLayout
     ]
   }
+
+function setNN (state, data) {
+  if (!state.voronoi) return
+  const point = state.voronoi.diagram.find(data.x, data.y)
+  return {pos: data, nearest: point}
+}
 
 function initLayout (send, done) {
   send('app:fx_layout', {}, (err) => {if (err) return done(err)})

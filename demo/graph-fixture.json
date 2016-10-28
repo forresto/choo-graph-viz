@@ -1,6 +1,13 @@
 { children:
   [ { id: 'User' }
-  , { id: 'DOM' }
+  , { id: 'DOM' 
+    , children:
+      [ { id: 'svg' }
+      ]
+    , edges:
+      [ {source: 'svg', target: 'Pointer'}
+      ]
+    }
   , { id: 'Subscriptions'
     , children:
       [ { id: 'Init' }
@@ -47,7 +54,6 @@
   ]
 , edges:
   [ {source: 'User', target: 'DOM'}
-  , {source: 'DOM', target: 'Pointer'}
   , {source: 'Reducers', target: 'State'}
   , {source: 'State', target: 'Router'}
   , {source: 'Router', target: 'Views'}

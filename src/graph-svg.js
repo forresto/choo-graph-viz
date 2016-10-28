@@ -67,8 +67,24 @@ function renderEdge (edge) {
   `
 }
 
+function renderTooltip (pos, nearest) {
+  if (!pos || !nearest) return
+  return html`
+    <g>
+      <line
+        x1="${pos.x}" y1="${pos.y}"
+        x2="${nearest[0]}" y2="${nearest[1]}"
+        stroke="red"
+      />
+      <text x="${pos.x}" y="${pos.y - 5}">
+        ${nearest.data[2]}
+      </text>
+    </g>
+  `
+}
+
 function graphSVG (state, prev, send) {
-  const {layout, voronoi, showVoronoi} = state.app
+  const {layout, voronoi, showVoronoi, pos, nearest} = state.app
   if (!layout) {
     return html`<div>calculating layout...</div>`
   }
@@ -76,17 +92,29 @@ function graphSVG (state, prev, send) {
   let {height, width} = layout
   height = Math.ceil(height)
   width = Math.ceil(width)
+
+  function onmousemove (event) {
+    send('app:re_pointer', {x: event.offsetX, y: event.offsetY})
+  }
+
   return html`
     <svg
       width="${width}" height="${height}"
       viewBox="0 0 ${width} ${height}"
-      style="max-width: 100%">
+      onmousemove=${onmousemove}>
       <defs>
         ${arrow}
       </defs>
-      ${children.map(renderNode)}
-      ${edges.map(renderEdge)}
-      ${(voronoi && showVoronoi) ? viewVoronoi(voronoi) : null}
+      <g id="__graph">
+        ${children.map(renderNode)}
+        ${edges.map(renderEdge)}
+      </g>
+      <g id="__debug">
+        ${(voronoi && showVoronoi) ? viewVoronoi(voronoi) : null}
+      </g>
+      <g id="__tooltip">
+        ${renderTooltip(pos, nearest)}
+      </g>
     </svg>
   `
 }
