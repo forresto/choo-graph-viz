@@ -12,10 +12,10 @@ const model =
     , layout: null
     }
   , reducers:
-    { layout: (state, data) => ({ layout: data })
+    { re_layout: (state, data) => ({ layout: data })
     }
   , effects:
-    { layouter: graphLayout
+    { fx_layout: graphLayout
     }
   , subscriptions:
     [ initLayout
@@ -23,7 +23,7 @@ const model =
   }
 
 function initLayout (send, done) {
-  send('layouter', {}, (err) => {if (err) return done(err)})
+  send('fx_layout', {}, (err) => {if (err) return done(err)})
 }
 
 function view (state, prev, send) {
