@@ -105,12 +105,12 @@ function graphSVG (state, prev, send) {
       <defs>
         ${arrow}
       </defs>
+      <g id="__debug">
+        ${(voronoi && showVoronoi) ? viewVoronoi(voronoi) : null}
+      </g>
       <g id="__graph">
         ${children.map(renderNode)}
         ${edges.map(renderEdge)}
-      </g>
-      <g id="__debug">
-        ${(voronoi && showVoronoi) ? viewVoronoi(voronoi) : null}
       </g>
       <g id="__tooltip">
         ${renderTooltip(pos, nearest)}

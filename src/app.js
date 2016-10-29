@@ -14,7 +14,7 @@ const model =
     { graph: null
     , layout: null
     , voronoi: null
-    , showVoronoi: false
+    , showVoronoi: true
     , pos: null
     , nearest: null
     }

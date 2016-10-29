@@ -1,10 +1,11 @@
 const html = require('choo/html')
 
-function renderPolygon (polygon) {
+function renderPolygon (polygon, index, array) {
+  const fill = `hsl(${index / array.length * 360}, 100%, 75%)`
   return html`
     <polygon
       points="${polygon.map((point) => point.join(',')+' ')}"
-      fill="none" stroke="green" />
+      fill="${fill}" stroke="white" />
   `
 }
 
