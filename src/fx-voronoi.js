@@ -33,16 +33,46 @@ function pointsFromNode (node, xOffset=0, yOffset=0) {
   return points
 }
 
+function divideSegment (x1, y1, x2, y2, maxLength = 50) {
+  let points = []
+  const dX = x2 - x1
+  const dY = y2 - y1
+  const distance = Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2))
+  const count = Math.floor(distance / maxLength)
+  let x = x1
+  let y = y1
+  for (let i = 0; i < count; i++) {
+    x += dX / (count + 1)
+    y += dY / (count + 1)
+    points.push([x, y])
+  }
+  return points
+}
+
 function pointsFromEdge (edge, xOffset=0, yOffset=0) {
   const {sourcePoint, bendPoints, targetPoint, id} = edge
+  let x = sourcePoint.x
+  let y = sourcePoint.y
   let points = [[sourcePoint.x + xOffset, sourcePoint.y + yOffset, id]]
   if (bendPoints) {
     for (let i = 0, len = bendPoints.length; i < len; i++) {
       const point = bendPoints[i]
+      const subdivisions = divideSegment(x, y, point.x, point.y)
+      for (let i = 0, len = subdivisions.length; i < len; i++) {
+        const subdivision = subdivisions[i]
+        points.push([subdivision[0] + xOffset, subdivision[1] + yOffset, id])
+      }
       points.push([point.x + xOffset, point.y + yOffset, id])
+      x = point.x
+      y = point.y
     }
   }
-  points.push([targetPoint.x, targetPoint.y+yOffset, id])
+  const subdivisions = divideSegment(x, y, targetPoint.x, targetPoint.y)
+  for (let i = 0, len = subdivisions.length; i < len; i++) {
+    const subdivision = subdivisions[i]
+    points.push([subdivision[0] + xOffset, subdivision[1] + yOffset, id])
+  }
+  points.push([targetPoint.x + xOffset, targetPoint.y + yOffset, id])
   return points
 }
 
